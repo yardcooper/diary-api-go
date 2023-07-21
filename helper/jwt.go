@@ -53,9 +53,9 @@ func CurrentUser(context *gin.Context) (model.User, error) {
 	return user, nil
 }
 
-func getToken(context *gin.Context) (*jwtToken, error) {
+func getToken(context *gin.Context) (*jwt.Token, error) {
 	tokenString := getTokenFromRequest(context)
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, err) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
